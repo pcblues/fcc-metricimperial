@@ -29,7 +29,7 @@ module.exports = function (app) {
       result.returnNum=returnNum
       result.returnUnit=returnUnit
       result.string = toString
-      res.send(JSON.stringify(result))
+      res.send(result)
     });
     
 };
