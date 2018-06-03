@@ -82,9 +82,9 @@ suite('Functional Tests', function() {
         .query({input: 'kg'})
         .end(function(err, res){
           assert.equal(res.status, 200);
-          assert.equal(res.body.initNum, invalidNumber);
+          assert.equal(res.body.initNum, 1);
           assert.equal(res.body.initUnit, 'kg');
-          assert.equal(res.body.returnNum, '');
+          assert.approximately(res.body.returnNum, 2.2,0.1);
           assert.equal(res.body.returnUnit, 'lbs');
           done();
         });

@@ -50,6 +50,9 @@ function ConvertHandler() {
     
   this.getNum = function(input) {
     var result = getItem(input,true)
+    if (result=='') {
+      result = '1'
+    }
     if(result.split('/').length>2) {
       result = invalidNumber
     } else {
