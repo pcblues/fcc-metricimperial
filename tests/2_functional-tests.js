@@ -10,7 +10,8 @@ var chaiHttp = require('chai-http');
 var chai = require('chai');
 var assert = chai.assert;
 var server = require('../server');
-
+var invalidNumber = 'invalid number'
+var invalidUnit = 'invalid unit'
 chai.use(chaiHttp);
 
 suite('Functional Tests', function() {
@@ -36,13 +37,13 @@ suite('Functional Tests', function() {
       test('Convert 32g (invalid input unit)', function(done) {
        chai.request(server)
         .get('/api/convert')
-        .query({input: '10L'})
+        .query({input: '32g'})
         .end(function(err, res){
           assert.equal(res.status, 200);
-          assert.equal(res.body.initNum, 10);
-          assert.equal(res.body.initUnit, 'L');
-          assert.approximately(res.body.returnNum, 2.64172, 0.1);
-          assert.equal(res.body.returnUnit, 'gal');
+          assert.equal(res.body.initNum, 32);
+          assert.equal(res.body.initUnit,invalidUnit);
+          assert.equal(res.body.returnNum, "");
+          assert.equal(res.body.returnUnit, '');
           done();
         });
       });
@@ -50,13 +51,13 @@ suite('Functional Tests', function() {
       test('Convert 3/7.2/4kg (invalid number)', function(done) {
        chai.request(server)
         .get('/api/convert')
-        .query({input: '10L'})
+        .query({input: '3/7.2/4kg'})
         .end(function(err, res){
           assert.equal(res.status, 200);
-          assert.equal(res.body.initNum, 10);
-          assert.equal(res.body.initUnit, 'L');
-          assert.approximately(res.body.returnNum, 2.64172, 0.1);
-          assert.equal(res.body.returnUnit, 'gal');
+          assert.equal(res.body.initNum, invalidNumber);
+          assert.equal(res.body.initUnit, 'kg');
+          assert.equal(res.body.returnNum,'');
+          assert.equal(res.body.returnUnit, 'lbs');
           done();
         });
       });  
@@ -64,13 +65,13 @@ suite('Functional Tests', function() {
       test('Convert 3/7.2/4kilomegagram (invalid number and unit)', function(done) {
        chai.request(server)
         .get('/api/convert')
-        .query({input: '10L'})
+        .query({input: '3/7.2/4kilomegagram'})
         .end(function(err, res){
           assert.equal(res.status, 200);
-          assert.equal(res.body.initNum, 10);
-          assert.equal(res.body.initUnit, 'L');
-          assert.approximately(res.body.returnNum, 2.64172, 0.1);
-          assert.equal(res.body.returnUnit, 'gal');
+          assert.equal(res.body.initNum, invalidNumber);
+          assert.equal(res.body.initUnit, invalidUnit);
+          assert.equal(res.body.returnNum, '');
+          assert.equal(res.body.returnUnit, '');
           done();
         });
       });
@@ -78,13 +79,13 @@ suite('Functional Tests', function() {
       test('Convert kg (no number)', function(done) {
        chai.request(server)
         .get('/api/convert')
-        .query({input: '10L'})
+        .query({input: 'kg'})
         .end(function(err, res){
           assert.equal(res.status, 200);
-          assert.equal(res.body.initNum, 10);
-          assert.equal(res.body.initUnit, 'L');
-          assert.approximately(res.body.returnNum, 2.64172, 0.1);
-          assert.equal(res.body.returnUnit, 'gal');
+          assert.equal(res.body.initNum, invalidNumber);
+          assert.equal(res.body.initUnit, 'kg');
+          assert.equal(res.body.returnNum, '');
+          assert.equal(res.body.returnUnit, 'lbs');
           done();
         });
       });
